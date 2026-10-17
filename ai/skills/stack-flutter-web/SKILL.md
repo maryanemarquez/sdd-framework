@@ -73,13 +73,13 @@ Regras:
 | Dependências | `flutter pub get` |
 | Análise estática | `flutter analyze` |
 | Suíte completa + cobertura | `flutter test --coverage` |
-| Verificar o mínimo de cobertura | `node ../tools/gates/verificar.js lcov coverage/lcov.info --min <N>` |
+| Verificar o mínimo de cobertura | `node ../tools/gates/verificar.js lcov coverage/lcov.info --min auto` |
 | Teste específico | `flutter test test/caminho/arquivo_test.dart` |
 | Formatação (linha de 120) | `dart format --output=none --set-exit-if-changed --line-length 120 lib test` |
 | Regras de estilo (`padrao-codigo`) | `node ../tools/gates/verificar.js qualidade lib test` |
 | Build web (sanidade) | `flutter build web` |
 
-- `<N>` é o mínimo de cobertura do `AGENTS.md`.
+- `--min auto` lê o mínimo de cobertura do `AGENTS.md`. Para outro valor, use `--min <N>`.
 - O caminho `../tools/gates/verificar.js` considera o módulo na pasta de primeiro nível do repositório. Ajuste se a pasta do módulo estiver mais profunda.
 - O comando de cobertura `lcov` é entregue junto com o script de verificações do framework. Cobertura abaixo do mínimo **faz o CI falhar**.
 - O CI executa formatação, `flutter analyze`, `qualidade`, `flutter test --coverage` e a verificação `lcov`, nessa ordem.
@@ -95,7 +95,7 @@ Aplicam-se todas as regras da skill `padrao-codigo`. Verificação nesta stack (
 | Q-02 classe ≤ 100 linhas | Modo `qualidade` (conta linhas de código sem comentários, brancos e imports) | O |
 | Q-03 método ≤ 20 linhas | Modo `qualidade` | O |
 | Q-04 ≤ 3 parâmetros | Modo `qualidade` | O |
-| Q-05 hard code | Modo `qualidade` (texto de negócio fora das classes de constantes e de mensagens) | O |
+| Q-05 hard code | Modo `qualidade` para textos (texto de negócio fora das classes de constantes e de mensagens); números e limites de negócio: leitura do `agente-testes` | O |
 | Q-06 log centralizado | Lint `avoid_print` como erro; só a classe de logging usa o pacote de log | O |
 | Q-07 mensagens centralizadas | Modo `qualidade` e leitura do `agente-testes` | O |
 | Q-08 nomes | Convenção Dart: tipos em `UpperCamelCase`; membros, variáveis e constantes em `lowerCamelCase`; arquivos e pastas em `snake_case`. Lints `camel_case_types`, `non_constant_identifier_names`, `constant_identifier_names`, `file_names` | O |

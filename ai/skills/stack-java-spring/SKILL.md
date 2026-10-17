@@ -64,7 +64,7 @@ Regras:
 - O ID aparece **no texto do `@DisplayName`** (ou, se o teste for parametrizado, no `@ParameterizedTest(name = ...)` / `@DisplayName` da classe aninhada que o contém).
 - Um teste cita o ID do cenário que verifica. Um teste **parametrizado** pode cobrir variações do mesmo cenário (um ID) ou cenários diferentes (IDs separados por vírgula: `HIST-003-projeto/C02, HIST-003-projeto/C03 - ...`), desde que as asserções cubram o "Então" de cada um.
 - Nome do teste: ID, depois cenário e resultado esperado (`HIST-003-projeto/C02 - nome no limite máximo resulta em projeto criado`).
-- Nenhum teste existe sem cenário de origem. Se a infraestrutura (por exemplo, uma migração) precisa de teste, ele cita o cenário que a exige.
+- Nenhum teste existe sem cenário de origem. Se a infraestrutura (por exemplo, uma migração) precisa de teste, ele cita o cenário que a exige. Única exceção: `QualidadeArquiteturaTest`, o teste de arquitetura do modelo `ai/templates/qualidade/java/`.
 
 ## 4. Comandos (executados na pasta do módulo)
 
@@ -118,7 +118,7 @@ Classificação: **B** = bloqueante (compromete corretude, segurança ou manuten
 | J-10 | Autorização verificada no servidor para cada operação protegida (papel e pertencimento ao recurso) | B |
 | J-11 | Consultas sem N+1 evidente nas listagens do contrato | B |
 | J-12 | Testes de integração usam MySQL real (Testcontainers), não H2 | B |
-| J-13 | Todo teste tem asserção significativa e cita um ID de cenário | B |
+| J-13 | Todo teste tem asserção significativa e cita um ID de cenário (exceto `QualidadeArquiteturaTest`) | B |
 | J-14 | Sem dependência ou infraestrutura não exigida pela história | E |
 | J-15 | Regras obrigatórias Q-01 a Q-09 sem violação (resultado do job de CI; cite o job e o local) | B |
 | J-16 | Transações no service e no menor escopo | E |

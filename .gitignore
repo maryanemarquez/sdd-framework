@@ -21,3 +21,6 @@ dist/
 coverage/
 .dart_tool/
 *.class
+
+# Configuração local de ferramentas de IA
+.claude/settings.local.json

@@ -20,9 +20,11 @@ Este repositório é um **modelo (template)**: você cria um projeto novo a part
 | `ai/processo.md` | Framework | Processo completo, gates e Definition of Done |
 | `ai/agentes/` | Framework | Os 3 papéis |
 | `ai/skills/` | Framework | Skills de processo e `stack-*` (uma por tecnologia) |
-| `ai/templates/` | Framework | Modelos de `historia.md` e `relatorio-teste.md` |
-| `tools/gates/` | Framework | Script de verificação (`verificar.js`) |
-| `.github/` | Framework | Workflows de CI e modelo de PR |
+| `ai/templates/` | Framework | Modelos de `historia.md` e `relatorio-teste.md`, e configurações de qualidade (`qualidade/`) |
+| `tools/gates/` | Framework | Script de verificação (`verificar.js`) e seus testes |
+| `.github/` | Framework | Workflows de CI, modelo de PR e instruções do Copilot |
+| `CLAUDE.md`, `.claude/agents/` | Framework | Adaptadores finos para o Claude Code (só apontam para `AGENTS.md` e `ai/`) |
+| `exemplos/` | Framework | Histórias de exemplo para testar as verificações (apague no projeto) |
 | `AGENTS.template.md` | Framework | Modelo do `AGENTS.md` do projeto |
 | `AGENTS.md` | **Projeto** | Regras, módulos e documentos do projeto |
 | `docs/` | **Projeto** | Domínio, especificação, requisitos, histórias etc. |
@@ -78,10 +80,17 @@ Você também pode rodar o script na sua máquina antes do push (precisa do Node
 
 ```
 node tools/gates/verificar.js historia docs/historias/HIST-001-auth/historia.md
+node tools/gates/verificar.js entrega docs/historias/HIST-001-auth --testes auto
 node tools/gates/verificar.js entrega docs/historias/HIST-001-auth --testes backend/src/test,frontend/test
+node tools/gates/verificar.js lcov frontend/coverage/lcov.info --min 80
+node tools/gates/verificar.js qualidade backend/src frontend/lib frontend/test
+node tools/gates/verificar.js modulos stack-java-spring
 ```
 
-O script e os workflows chegam na Entrega 3 do framework.
+- `--testes auto` e `--min auto` leem os módulos e a cobertura mínima do `AGENTS.md`.
+- Saída `0` = ok, `1` = violação, `2` = erro de uso ou de ambiente (o script nunca aprova por engano).
+- O próprio script tem testes: `node --test tools/gates/verificar.test.js`. O job `autoteste` os roda em todo PR.
+- Em caso de falso positivo, corrija o script no `sdd-framework`; nunca contorne com instrução à IA.
 
 ## 6. Criando um projeto novo
 
@@ -90,6 +99,7 @@ O script e os workflows chegam na Entrega 3 do framework.
 3. Clone o projeto na sua máquina e abra a pasta na IDE.
 4. Renomeie `AGENTS.template.md` para `AGENTS.md` e preencha: nome, versão, módulos (com a skill de stack de cada um) e caminhos dos documentos.
 5. Crie os documentos do projeto em `docs/` (domínio, especificação, requisitos etc.).
+   Copie também as configurações de qualidade de cada stack para o módulo (veja `ai/templates/qualidade/README.md`).
 6. Apague a pasta `exemplos/`, se existir.
 7. Configure o repositório (seção 7).
 8. Peça a primeira história ao gerenciador.
@@ -101,10 +111,12 @@ Faça uma vez por repositório.
 1. **Proteger a `main`:** Settings → Rules → Rulesets → New branch ruleset.
    - Alvo: branch `main`.
    - Marque *Require a pull request before merging*, **sem** exigir aprovações (você trabalha sozinha).
-   - Marque *Require status checks to pass* e adicione as verificações: `historia`, `entrega` e o job de cada stack em uso. Confira os nomes exatos na aba *Checks* do primeiro PR.
+   - Marque *Require status checks to pass* e adicione as verificações: `historia`, `entrega` e o job de cada stack em uso (`java-spring`, `flutter-web`). Jobs pulados (por exemplo, `historia` em um branch `feature/*`) contam como sucesso. Confira os nomes exatos na aba *Checks* do primeiro PR.
 2. **Segredos:** Settings → Code security → ative *Secret scanning* e *Push protection*.
 3. **Modelo (só no `sdd-framework`):** Settings → General → marque *Template repository*.
 4. **Apagar branches mesclados:** Settings → General → *Automatically delete head branches*.
+
+5. **Versão do framework (só no `sdd-framework`):** depois que as verificações estiverem validadas no primeiro PR real, marque a versão: `git tag v0.1.0` e `git push origin v0.1.0`. Os projetos registram essa versão no `AGENTS.md`.
 
 Em repositório público, esses recursos são gratuitos. Em repositório privado, algumas regras podem exigir plano pago: confira antes.
 
