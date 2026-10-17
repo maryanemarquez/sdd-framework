@@ -78,6 +78,7 @@ A estrutura é conferida pela verificação `historia`. O checklist abaixo é pa
 | Todos os critérios de aceitação atendidos | Você |
 | Todo cenário Gherkin tem teste que cita seu ID | Verificação `entrega` |
 | Suíte passando e cobertura ≥ mínimo do projeto (padrão 80%) | CI da stack |
+| Regras obrigatórias de `padrao-codigo` sem violação (alertas das recomendadas revisados) | CI da stack e agente de testes |
 | RNFs mensuráveis listados no `AGENTS.md` verificados, ou não aplicabilidade justificada no relatório | Agente de testes e você |
 | `relatorio-teste.md` com `Veredito: LIBERADO` e sem pendência bloqueante | Verificação `entrega` e você |
 | Artefatos da história versionados no PR | Você |
@@ -89,7 +90,7 @@ A história se encerra no **merge do PR de entrega**. Não há arquivo marcador.
 | Verificação | Quando roda | O que confere |
 |---|---|---|
 | `historia` | PR do branch `historia/*` | Seções obrigatórias, cenários com ID e sintaxe, marcadores listados em "Pontos em aberto", Contrato de Integração em modo paralelo |
-| CI da stack (um job por módulo) | PR que altera a pasta do módulo | Testes e cobertura mínima |
+| CI da stack (um job por módulo) | PR que altera a pasta do módulo | Testes, cobertura mínima e regras obrigatórias de `padrao-codigo` (bloqueiam); regras recomendadas apenas alertam |
 | `entrega` | PR do branch `feature/*` | Rastreabilidade ID↔teste, relatório com veredito `LIBERADO` em formato único, matriz completa |
 | Secret scanning | Todo push (recurso do GitHub) | Segredos no código |
 
@@ -110,7 +111,7 @@ A proteção do branch `main` impede o merge se alguma verificação obrigatóri
 ## 9. Rastreabilidade por ID
 
 - Cada cenário Gherkin tem um ID local na história: `[C01]`, `[C02]`...
-- O teste cita o **ID qualificado**: `HIST-XXX-<dominio>/C01`, no nome ou na descrição do teste. O formato exato por tecnologia está na skill de stack.
+- O teste cita o **ID qualificado**: `HIST-XXX-<dominio>/C01`, no nome ou na descrição do teste. Um teste parametrizado pode citar mais de um ID. O formato exato por tecnologia está na skill de stack.
 - A verificação `entrega` falha se algum ID da história não aparece em nenhum teste, ou se um teste cita um ID que não existe na história.
 
 ## 10. Regras de ouro
@@ -129,7 +130,7 @@ A proteção do branch `main` impede o merge se alguma verificação obrigatóri
 
 ## 12. O que foi deliberadamente simplificado
 
-- Não há agentes dedicados de revisão de código, segurança ou desempenho. Qualidade fica no checklist da skill de stack, aplicado pelo `agente-testes`; segurança básica fica no secret scanning do GitHub e na sua revisão.
+- Não há agentes dedicados de revisão de código, segurança ou desempenho. Qualidade fica no checklist da skill de stack e em `padrao-codigo`, aplicados pelo CI e pelo `agente-testes`; segurança básica fica no secret scanning do GitHub e na sua revisão.
 - A verificação de comportamento é por rastreabilidade (ID↔teste), não por execução em ferramenta BDD. A exigência de citar o ID reduz a brecha, sem eliminá-la.
 - Não há orquestração automática entre papéis: você conduz.
 

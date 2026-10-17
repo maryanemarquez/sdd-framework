@@ -64,7 +64,8 @@ Abra uma sessão nova para cada papel e use uma destas instruções:
 4. O escopo de uma história aprovada é imutável. Mudança de escopo exige nova versão da história.
 5. Nenhum gate é pulado. Quem aprova os Gates 1 e 3 é o humano.
 6. Todo teste cita o ID qualificado do cenário (`HIST-XXX-<dominio>/Cxx`), no formato da skill de stack.
-7. Em caso de dúvida, pare e pergunte, em vez de decidir sozinho.
+7. Todo código e teste segue a skill `padrao-codigo` (estilo comum a todos os projetos). Regras obrigatórias bloqueiam o merge; as recomendadas alertam.
+8. Em caso de dúvida, pare e pergunte, em vez de decidir sozinho.
 
 ## Referência externa (material visual ou de outro sistema)
 

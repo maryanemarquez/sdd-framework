@@ -7,7 +7,7 @@ description: Usar sempre que o agente-testes avaliar a entrega de um construtor.
 
 ## Princípio central
 
-Esta skill **não define** padrão de qualidade. Ela aplica, de forma independente, o checklist da **skill de stack** do módulo. Se um item de qualidade não está na skill de stack, não é achado de auditoria: é sinal de que a skill precisa ser atualizada, o que é feito fora do fluxo da história, pelo humano.
+Esta skill **não define** padrão de qualidade. Ela aplica, de forma independente, o checklist da **skill de stack** do módulo e as regras da skill `padrao-codigo`. Se um item de qualidade não está em nenhuma delas, não é achado de auditoria: é sinal de que a skill precisa ser atualizada, o que é feito fora do fluxo da história, pelo humano.
 
 ## O que o robô já confere (não repita, apenas registre)
 
@@ -47,7 +47,7 @@ Confira a cobertura **medida** (relatório do CI ou da ferramenta de cobertura),
 
 ## Passo 4: checklist de qualidade
 
-Aplique, item a item, o checklist da skill de stack do módulo ao código entregue (o diff do PR). Registre cada achado com localização exata (arquivo e trecho). Nada genérico.
+Aplique, item a item, o checklist da skill de stack do módulo ao código entregue (o diff do PR). Para as regras de `padrao-codigo` que a ferramenta verifica (Q-01 a Q-09), registre o resultado do job de CI; para as que só a leitura alcança (Q-10, Q-11, Q-14 a Q-18), leia o código e os testes. Registre cada achado com localização exata (arquivo e trecho). Nada genérico.
 
 ## Passo 5: RNFs mensuráveis
 
@@ -61,6 +61,8 @@ Para cada RNF listado no `AGENTS.md` como exigido na Definition of Done, registr
 | Cobertura abaixo do mínimo | Sim |
 | Teste falhando | Sim |
 | Violação do checklist que compromete corretude ou manutenibilidade | Sim |
+| Violação de regra **obrigatória** de `padrao-codigo` (Q-01 a Q-09) | Sim |
+| Violação de regra **recomendada** de `padrao-codigo` | Não, salvo se comprometer corretude ou manutenibilidade; registre como alerta |
 | Violação meramente estilística | Não; registre a diferença explicitamente |
 
 ## Formato do relatório

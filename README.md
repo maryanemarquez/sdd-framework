@@ -70,7 +70,7 @@ A IA lê o arquivo do papel, o `AGENTS.md` do projeto e as skills que o papel ma
 | Verificação | Quando roda | Para que serve |
 |---|---|---|
 | `historia` | PR de branch `historia/*` | Impede história mal estruturada (seções, cenários com ID, marcadores) |
-| Job da stack (ex.: `java-spring`, `flutter-web`) | PR que altera a pasta do módulo | Roda testes e exige a cobertura mínima |
+| Job da stack (ex.: `java-spring`, `flutter-web`) | PR que altera a pasta do módulo | Roda testes, exige a cobertura mínima e as regras obrigatórias de estilo (`padrao-codigo`); regras recomendadas só geram alerta |
 | `entrega` | PR de branch `feature/*` | Confere se todo cenário tem teste que o cita e se o relatório está `LIBERADO` |
 | Secret scanning do GitHub | Todo push | Bloqueia segredos no código |
 
