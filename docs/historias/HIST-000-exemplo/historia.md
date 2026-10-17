@@ -17,7 +17,7 @@ Documento fictício "Especificação do exemplo", seção 2; requisitos RF-01 e 
 1. O usuário reserva uma sala livre informando sala, horário e duração.
    - Critério de aceitação: com sala e horário livres e duração de até 4 horas, o sistema registra a reserva e exibe "Reserva confirmada".
 2. O sistema impede a reserva de sala já ocupada.
-   - Critério de aceitação: ao reservar uma sala ocupada no mesmo horário, o sistema rejeita com o código `HORARIO_INDISPONIVEL` e exibe "Horário indisponível".
+   - Critério de aceitação: o sistema trata bem a reserva de sala ocupada [AMBÍGUO].
 
 ## Requisitos não-funcionais
 
@@ -36,7 +36,7 @@ Cenário: [C02] Reservar pelo tempo máximo permitido
   Quando o usuário reserva a sala "A1" por exatamente 4 horas
   Então a reserva é registrada
 
-Cenário: [C03] Tentar reservar sala ocupada
+Cenário: [C02] Tentar reservar sala ocupada
   Dado que a sala "A1" já está reservada às 10h
   Quando o usuário tenta reservar a sala "A1" às 10h
   Então o sistema rejeita a reserva com o código "HORARIO_INDISPONIVEL"
@@ -48,7 +48,6 @@ Cenário: [C03] Tentar reservar sala ocupada
 - Endpoint: `POST /reservas`
 - Quem acessa: usuário autenticado
 - Requisição: corpo JSON com `salaId` (texto, obrigatório), `inicio` (data e hora UTC, obrigatório) e `horas` (inteiro de 1 a 4, obrigatório)
-- Resposta de sucesso: `201` com `id`, `salaId`, `inicio` e `horas`
 - Erros: `422 HORARIO_INDISPONIVEL` quando a sala já está reservada no período; `400 VALIDACAO` quando um campo é inválido
 - Regras de negócio: uma sala não pode ter duas reservas sobrepostas
 
@@ -57,10 +56,6 @@ Cenário: [C03] Tentar reservar sala ocupada
 - Módulos ativados: backend, frontend
 - Modo: paralelo
 - Justificativa: a história altera dado e tela, e o Contrato de Integração está completo (modo paralelo da skill criterio-fluxo-execucao).
-
-## Decisões técnicas relevantes
-
-Nenhuma.
 
 ## Pontos em aberto
 
