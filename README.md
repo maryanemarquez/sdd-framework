@@ -85,9 +85,12 @@ node tools/gates/verificar.js entrega docs/historias/HIST-001-auth --testes back
 node tools/gates/verificar.js lcov frontend/coverage/lcov.info --min 80
 node tools/gates/verificar.js qualidade backend/src frontend/lib frontend/test
 node tools/gates/verificar.js modulos stack-java-spring
+node tools/gates/verificar.js config <cobertura-minima|java|flutter>
 ```
 
 - `--testes auto` e `--min auto` leem os módulos e a cobertura mínima do `AGENTS.md`.
+- O modo `modulos` falha (saída 2) se o AGENTS.md não existir (fora do repositório do framework), se a tabela de módulos estiver vazia ou se citar uma skill inexistente.
+- O modo `config` lê valores do `AGENTS.md` (cobertura mínima e versões do Java e do Flutter) para os workflows.
 - Saída `0` = ok, `1` = violação, `2` = erro de uso ou de ambiente (o script nunca aprova por engano).
 - O próprio script tem testes: `node --test tools/gates/verificar.test.js`. O job `autoteste` os roda em todo PR.
 - Em caso de falso positivo, corrija o script no `sdd-framework`; nunca contorne com instrução à IA.
@@ -155,8 +158,9 @@ O modelo do GitHub copia os arquivos uma vez e não atualiza depois.
 
 1. Veja a versão do framework registrada no `AGENTS.md` do projeto.
 2. No `sdd-framework`, confira se há uma versão mais nova (aba *Releases* ou tags).
-3. Copie para o projeto apenas as pastas do framework (`ai/`, `tools/`, `.github/`), sem tocar em `docs/` nem em `AGENTS.md`.
-4. Atualize a linha "Versão do framework" no `AGENTS.md` e faça o commit.
+3. Copie para o projeto apenas os arquivos do framework: `ai/`, `tools/`, `.github/`, `CLAUDE.md` e `.claude/agents/`. Não toque em `docs/`, em `AGENTS.md` nem no código dos módulos.
+4. Compare `AGENTS.template.md` com o `AGENTS.md` do projeto e acrescente à mão as linhas novas do modelo. As configurações de qualidade já copiadas para os módulos (`ai/templates/qualidade/`) não são atualizadas sozinhas: compare e copie as mudanças.
+5. Atualize a linha "Versão do framework" no `AGENTS.md` e faça o commit.
 
 ## 10. Limites conhecidos
 
